@@ -143,16 +143,16 @@ int nextHandle = 0;
                       }];
   } else if ([@"reauthenticateWithCredential" isEqualToString:call.method]) {
     [[self getAuth:call.arguments].currentUser
-        reauthenticateWithCredential:[self getCredential:call.arguments]
-                          completion:^(NSError *_Nullable error) {
-                            [self sendResult:result forObject:nil error:error];
-                          }];
+        reauthenticateAndRetrieveDataWithCredential:[self getCredential:call.arguments]
+                                         completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
+                                           [self sendResult:result forObject:authResult.user error:error];
+                                         }];
   } else if ([@"linkWithCredential" isEqualToString:call.method]) {
     [[self getAuth:call.arguments].currentUser
-        linkWithCredential:[self getCredential:call.arguments]
-                completion:^(FIRUser *user, NSError *error) {
-                  [self sendResult:result forUser:user error:error];
-                }];
+        linkAndRetrieveDataWithCredential:[self getCredential:call.arguments]
+                               completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
+                                 [self sendResult:result forUser:authResult.user error:error];
+                               }];
   } else if ([@"unlinkFromProvider" isEqualToString:call.method]) {
     NSString *provider = call.arguments[@"provider"];
     [[self getAuth:call.arguments].currentUser
@@ -255,10 +255,10 @@ int nextHandle = 0;
         [[FIRPhoneAuthProvider provider] credentialWithVerificationID:verificationId
                                                      verificationCode:smsCode];
     [[self getAuth:call.arguments]
-        signInWithCredential:credential
-                  completion:^(FIRUser *_Nullable user, NSError *_Nullable error) {
-                    [self sendResult:result forUser:user error:error];
-                  }];
+        signInAndRetrieveDataWithCredential:credential
+                                 completion:^(FIRAuthDataResult * _Nullable authResult, NSError * _Nullable error) {
+                                   [self sendResult:result forUser:authResult.user error:error];
+                                 }];
   } else if ([@"setLanguageCode" isEqualToString:call.method]) {
     NSString *language = call.arguments[@"language"];
     [[self getAuth:call.arguments] setLanguageCode:language];
@@ -280,7 +280,7 @@ int nextHandle = 0;
 
   NSMutableDictionary *userData = [toDictionary(user) mutableCopy];
   userData[@"creationTimestamp"] = [NSNumber numberWithLong:creationDate];
-  userData[@"lastSignInTimestamp"] = [NSNumber numberWithInt:lastSignInDate];
+  userData[@"lastSignInTimestamp"] = [NSNumber numberWithLong:lastSignInDate];
   userData[@"isAnonymous"] = [NSNumber numberWithBool:user.isAnonymous];
   userData[@"isEmailVerified"] = [NSNumber numberWithBool:user.isEmailVerified];
   userData[@"providerData"] = providerData;
