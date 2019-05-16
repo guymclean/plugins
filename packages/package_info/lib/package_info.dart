@@ -24,33 +24,28 @@ class PackageInfo {
     this.buildNumber,
   });
 
-  static Map<String, Future<PackageInfo>> _fromPlatform =
-      <String, Future<PackageInfo>>{};
-
   /// Retrieves package information from the platform.
   /// The result is cached.
   static Future<PackageInfo> fromPlatform({String packageName}) async {
-    return _fromPlatform.putIfAbsent(packageName, () {
-      final Completer<PackageInfo> completer = Completer<PackageInfo>();
+    final Completer<PackageInfo> completer = Completer<PackageInfo>();
 
-      // TODO(amirh): remove this on when the invokeMethod update makes it to stable Flutter.
-      // https://github.com/flutter/flutter/issues/26431
-      // ignore: strong_mode_implicit_dynamic_method
-      _kChannel.invokeMethod('getAll', <String, String>{
-        'packageName': packageName,
-      }).then((dynamic result) {
-        final Map<dynamic, dynamic> map = result;
+    // TODO(amirh): remove this on when the invokeMethod update makes it to stable Flutter.
+    // https://github.com/flutter/flutter/issues/26431
+    // ignore: strong_mode_implicit_dynamic_method
+    _kChannel.invokeMethod('getAll', <String, String>{
+      'packageName': packageName,
+    }).then((dynamic result) {
+      final Map<dynamic, dynamic> map = result;
 
-        completer.complete(PackageInfo(
-          appName: map["appName"],
-          packageName: map["packageName"],
-          version: map["version"],
-          buildNumber: map["buildNumber"],
-        ));
-      }, onError: completer.completeError);
+      completer.complete(PackageInfo(
+        appName: map["appName"],
+        packageName: map["packageName"],
+        version: map["version"],
+        buildNumber: map["buildNumber"],
+      ));
+    }, onError: completer.completeError);
 
-      return completer.future;
-    });
+    return completer.future;
   }
 
   /// The app name. `CFBundleDisplayName` on iOS, `application/label` on Android.
