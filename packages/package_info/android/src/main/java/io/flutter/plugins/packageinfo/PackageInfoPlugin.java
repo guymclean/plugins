@@ -37,7 +37,13 @@ public class PackageInfoPlugin implements MethodCallHandler {
       Context context = mRegistrar.context();
       if (call.method.equals("getAll")) {
         PackageManager pm = context.getPackageManager();
-        PackageInfo info = pm.getPackageInfo(context.getPackageName(), 0);
+
+        String packageName = context.getPackageName();
+        if (call.argument("packageName") != null) {
+          packageName = call.argument("packageName");
+        }
+
+        PackageInfo info = pm.getPackageInfo(packageName, 0);
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("appName", info.applicationInfo.loadLabel(pm).toString());

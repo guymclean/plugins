@@ -64,6 +64,40 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: const Icon(Icons.list),
+            onPressed: () {
+              String packageName = '';
+              showDialog<void>(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Select'),
+                    content: TextField(
+                      onChanged: (text) {
+                        packageName = text;
+                      },
+                    ),
+                    actions: <Widget>[
+                      FlatButton(
+                        child: const Text('Resolve'),
+                        onPressed: () {
+                          PackageInfo.fromPlatform(packageName: packageName)
+                              .then((PackageInfo x) {
+                            print(x);
+                          }).catchError((Object e) {
+                            print('e');
+                          });
+                        },
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+          )
+        ],
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
