@@ -8,8 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.view.Surface;
 import com.google.android.exoplayer2.C;
+import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.ExoPlaybackException;
-import com.google.android.exoplayer2.ExoPlayerFactory;
 import com.google.android.exoplayer2.Format;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.Player.EventListener;
@@ -19,7 +19,6 @@ import com.google.android.exoplayer2.extractor.DefaultExtractorsFactory;
 import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.source.ProgressiveMediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelector;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSource;
@@ -63,8 +62,14 @@ final class VideoPlayer {
     this.eventChannel = eventChannel;
     this.textureEntry = textureEntry;
 
-    TrackSelector trackSelector = new DefaultTrackSelector();
-    exoPlayer = ExoPlayerFactory.newSimpleInstance(context, trackSelector);
+    exoPlayer =
+        new SimpleExoPlayer.Builder(context)
+            .setTrackSelector(new DefaultTrackSelector(context))
+            .setLoadControl(
+                new DefaultLoadControl.Builder()
+                    .setBufferDurationsMs(5000, 60000, 10000, 10000)
+                    .createDefaultLoadControl())
+            .build();
 
     Uri uri = Uri.parse(dataSource);
 
