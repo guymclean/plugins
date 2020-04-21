@@ -67,7 +67,7 @@ final class VideoPlayer {
             .setTrackSelector(new DefaultTrackSelector(context))
             .setLoadControl(
                 new DefaultLoadControl.Builder()
-                    .setBufferDurationsMs(5000, 60000, 10000, 10000)
+                    .setBufferDurationsMs(10000, 60000, 10000, 10000)
                     .createDefaultLoadControl())
             .build();
 
