@@ -40,6 +40,9 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
       case 'onPageFinished':
         _platformCallbacksHandler.onPageFinished(call.arguments['url']!);
         return null;
+      case 'onProgress':
+        _platformCallbacksHandler.onProgress(call.arguments['progress']);
+        return null;
       case 'onPageStarted':
         _platformCallbacksHandler.onPageStarted(call.arguments['url']!);
         return null;
@@ -48,7 +51,8 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
           WebResourceError(
             errorCode: call.arguments['errorCode']!,
             description: call.arguments['description']!,
-            failingUrl: call.arguments['failingUrl']!,
+            // iOS doesn't support `failingUrl`.
+            failingUrl: call.arguments['failingUrl'],
             domain: call.arguments['domain'],
             errorType: call.arguments['errorType'] == null
                 ? null
@@ -182,6 +186,7 @@ class MethodChannelWebViewPlatform implements WebViewPlatformController {
 
     _addIfNonNull('jsMode', settings!.javascriptMode?.index);
     _addIfNonNull('hasNavigationDelegate', settings.hasNavigationDelegate);
+    _addIfNonNull('hasProgressTracking', settings.hasProgressTracking);
     _addIfNonNull('debuggingEnabled', settings.debuggingEnabled);
     _addIfNonNull(
         'gestureNavigationEnabled', settings.gestureNavigationEnabled);

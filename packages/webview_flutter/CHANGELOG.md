@@ -1,3 +1,23 @@
+## 2.0.0-nullsafety.6
+
+* Added support for progress tracking.
+
+## 2.0.0-nullsafety.5
+
+* Add section to the wiki explaining how to use Material components.
+
+## 2.0.0-nullsafety.4
+
+* Update integration test to workaround an iOS 14 issue with `evaluateJavascript`.
+
+## 2.0.0-nullsafety.3
+
+* Fix `onWebResourceError` on iOS.
+
+## 2.0.0-nullsafety.2
+
+* Fix outdated links across a number of markdown files ([#3276](https://github.com/flutter/plugins/pull/3276))
+
 ## 2.0.0-nullsafety.1
 
 * Added `allowsInlineMediaPlayback` property.
