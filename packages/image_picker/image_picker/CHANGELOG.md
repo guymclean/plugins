@@ -1,8 +1,8 @@
-## 0.7.0-nullsafety.1
+## 0.7.1
 
 * Android: Disable image resizing for GIF images.
 
-## 0.7.0-nullsafety
+## 0.7.0
 
 * Migrate to nullsafety
 * Breaking Changes:
