@@ -16,19 +16,18 @@ flutter:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_plugin_android_lifecycle: ^2.0.0-nullsafety.2
-  image_picker_platform_interface: ^2.0.0-nullsafety
+  flutter_plugin_android_lifecycle: ^2.0.0
+  image_picker_platform_interface: ^2.0.0
 
 dev_dependencies:
-  video_player: ^2.0.0-nullsafety.7
   flutter_test:
     sdk: flutter
   integration_test:
     path: ../../integration_test
   mockito: ^5.0.0-nullsafety.7
-  pedantic: ^1.8.0
-  plugin_platform_interface: ^1.0.3
+  pedantic: ^1.10.0
+  plugin_platform_interface: ">=1.0.0 <3.0.0"
 
 environment:
-  sdk: ">=2.12.0-0 <3.0.0"
+  sdk: ">=2.12.0-259.9.beta <3.0.0"
   flutter: ">=1.10.0"
